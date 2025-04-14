@@ -1,0 +1,216 @@
+:root {
+    --dark-bg: #121213;
+    --dark-container-bg: #1a1a1c;
+    --cell-border-color: #3a3a3c;
+    --cell-filled-border-color: #888;
+    --cell-text-color: #d7dadc;
+    --absent-color: #3a3a3c;
+    --present-color: #b59f3b;
+    --correct-color: #538d4e;
+    --key-bg: #818384;
+    --key-text-color: #ffffff;
+    --button-bg: var(--present-color);
+    --button-text: #ffffff;
+    --font-size-base: 16px;
+
+    /* Altura do tabuleiro um pouco mais flexível */
+    --board-height: clamp(350px, 50vh, 460px);
+    --key-height: clamp(42px, 5.5vh, 52px); /* Teclas um pouco menores */
+    --gap-size: clamp(3px, 0.8vh, 5px); /* Gaps menores */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: var(--font-size-base);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+    /* Usar 100svh tenta considerar a altura visível real em mobiles */
+    min-height: 100vh;
+    min-height: 100svh;
+    background-color: var(--dark-bg);
+    color: var(--cell-text-color);
+    padding: var(--gap-size);
+    overflow: hidden; /* Tenta evitar rolagem */
+}
+
+#container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Mantém a distribuição */
+    flex-grow: 1;
+    /* Gap entre elementos principais ajustado */
+    gap: calc(var(--gap-size) * 2);
+    padding-bottom: var(--gap-size); /* Padding inferior mínimo */
+}
+
+h1 {
+    color: var(--cell-text-color);
+    font-weight: 700;
+    font-size: clamp(1.7rem, 4.5vh, 2.4rem); /* Levemente menor */
+    letter-spacing: 0.1em;
+    border-bottom: 1px solid var(--cell-border-color);
+    padding-bottom: calc(var(--gap-size) * 1.2);
+    width: 100%;
+    text-align: center;
+    flex-shrink: 0;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    margin-top: var(--gap-size); /* Pequena margem superior */
+}
+
+#game-board {
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    gap: var(--gap-size);
+    width: clamp(280px, 85%, 350px);
+    height: var(--board-height);
+    flex-shrink: 0;
+    margin-top: 0; /* Removida margem extra */
+    margin-bottom: 0; /* Removida margem extra */
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--gap-size);
+}
+
+.cell {
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--cell-border-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(1.4rem, 4.5vmin, 2rem); /* Fonte da célula ajustada */
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--cell-text-color);
+    background-color: transparent;
+    transition: transform 0.2s ease-in-out, background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+}
+
+.cell.filled {
+    border-color: var(--cell-filled-border-color);
+    transform: scale(1.05);
+}
+
+.cell.reveal {
+    transition: transform 0.6s ease, background-color 0.6s ease 0.3s, border-color 0.6s ease 0.3s, color 0.6s ease 0.3s;
+    transform: rotateX(360deg);
+}
+
+.cell.correct { background-color: var(--correct-color); border-color: var(--correct-color); color: var(--key-text-color); }
+.cell.present { background-color: var(--present-color); border-color: var(--present-color); color: var(--key-text-color); }
+.cell.absent { background-color: var(--absent-color); border-color: var(--absent-color); color: var(--key-text-color); }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+.shake { animation: shake 0.4s ease-in-out; }
+
+@keyframes dance {
+  0%, 100% { transform: translateY(0) scale(1.05); }
+  25% { transform: translateY(-8px) scale(1.1) rotate(3deg); }
+  50% { transform: translateY(0) scale(1.05) rotate(0deg); }
+  75% { transform: translateY(-5px) scale(1.1) rotate(-3deg); }
+}
+.cell.dance { animation: dance 0.7s ease-in-out; animation-delay: var(--dance-delay, 0s); }
+
+#message-area {
+    font-size: clamp(0.85rem, 2.2vh, 1rem); /* Mensagem um pouco menor */
+    font-weight: 600;
+    min-height: 22px; /* Altura mínima menor */
+    text-align: center;
+    padding: 4px 8px; /* Padding menor */
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    flex-shrink: 0;
+    margin-top: var(--gap-size);
+    margin-bottom: var(--gap-size);
+}
+
+#message-area.win { color: var(--dark-bg); background-color: var(--correct-color); }
+#message-area.error { color: var(--dark-bg); background-color: #e74c3c; }
+#message-area.info { color: var(--dark-bg); background-color: var(--present-color); }
+
+#reset-button {
+    padding: 8px 16px; /* Padding menor */
+    font-size: clamp(0.85rem, 2.2vh, 0.95rem); /* Botão menor */
+    font-weight: 600;
+    cursor: pointer;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: none;
+    border-radius: 6px;
+    transition: background-color 0.2s, transform 0.1s;
+    margin-top: 0; /* Removida margem extra */
+    flex-shrink: 0;
+}
+#reset-button:hover { background-color: #9e8a34; }
+#reset-button:active { transform: scale(0.98); }
+
+/* --- Estilos do Teclado Virtual --- */
+#keyboard {
+    user-select: none;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-size); /* Gap entre linhas do teclado */
+    flex-shrink: 0;
+    margin-top: calc(var(--gap-size) * 2); /* Margem acima do teclado */
+}
+
+.keyboard-row {
+    display: flex;
+    justify-content: center;
+    gap: var(--gap-size); /* Gap entre teclas */
+    width: 100%;
+}
+
+.key {
+    font-family: inherit;
+    font-weight: 600;
+    padding: 0;
+    height: var(--key-height);
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--key-bg);
+    color: var(--key-text-color);
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background-color 0.1s, transform 0.05s ease-out, box-shadow 0.1s ease-in-out;
+    font-size: clamp(0.75rem, 1.8vmin, 0.95rem); /* Fonte da tecla ajustada */
+    box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+}
+
+.key:hover { background-color: #a1a3a4; box-shadow: 0 3px 4px rgba(0,0,0,0.25); }
+.key:active { transform: scale(0.96); background-color: #717374; box-shadow: 0 1px 1px rgba(0,0,0,0.2); }
+
+.key.large {
+    flex: 1.5;
+    font-size: clamp(0.65rem, 1.6vmin, 0.85rem); /* Tecla grande ajustada */
+}
+
+.key.correct { background-color: var(--correct-color); color: white; }
+.key.present { background-color: var(--present-color); color: white; }
+.key.absent { background-color: var(--absent-color); color: white; }
