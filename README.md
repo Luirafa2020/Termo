@@ -15,3 +15,5 @@ Esse é um jogo baseado no jogo Termo, que é um jogo onde você coloca as palav
 ![image](https://github.com/user-attachments/assets/30a98c96-50cb-479f-a23b-b3628e441eee)
 
 Link do jogo: https://luirafa2020.github.io/Termo/
+
+---------Feito com a ajuda do Gemini 2.5 Pro---------
