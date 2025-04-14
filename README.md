@@ -1,6 +1,6 @@
 # Termo
 
-Esse é um jogo baseado no jogo Termo, que é um jogo onde você coloca as palavras e ele fala se está certo, em uma posição diferente ou errado, com um visual simples e bonito feito para funcionar com as palavras da lingua portuguêsa, e você pode jogar infinitas vezes, o link do jogo está logo abaixo:
+Esse é um jogo baseado no jogo Termo, que é um jogo onde você coloca as palavras e ele fala se está certo, em uma posição diferente ou errado, com um visual simples e bonito feito para funcionar com as palavras da lingua portuguêsa, ele acentua automaticamente ao enviar  a palavra, e você pode jogar infinitas vezes, o link do jogo está logo abaixo:
 
 **Termo:**
 
@@ -14,4 +14,4 @@ Esse é um jogo baseado no jogo Termo, que é um jogo onde você coloca as palav
 
 ![image](https://github.com/user-attachments/assets/30a98c96-50cb-479f-a23b-b3628e441eee)
 
-Link do jogo: 
+Link do jogo: https://luirafa2020.github.io/Termo/
